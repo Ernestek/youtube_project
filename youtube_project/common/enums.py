@@ -1,6 +1,62 @@
 from django.db import models
 
 
+class SafeSearch(models.TextChoices):
+    moderate = 'moderate', 'moderate'
+    none = 'none', 'without filter'
+    strict = 'strict', 'strict'
+
+
+class ChannelType(models.TextChoices):
+    any_v = 'any', 'any'
+    show = 'show', 'show'
+
+
+class VideoCaption(models.TextChoices):
+    any_v = 'any', 'any'
+    closed_caption = 'closedCaption', 'closed caption'
+    none_caption = 'none', 'without a caption'
+
+
+class VideoDefinition(models.TextChoices):
+    any_v = 'any', 'any'
+    high = 'high', 'only HD videos'
+    standard = 'standard', 'videos in standard definition'
+
+
+class VideoDimension(models.TextChoices):
+    any_v = 'any', 'any'
+    v_2d = '2d', 'exclude 3D videos'
+    v_3d = '3d', 'only include 3D videos'
+
+
+class VideoEmbeddable(models.TextChoices):
+    any_v = 'any', 'any'
+    embeddable = 'true', 'embeddable'
+
+
+class VideoLicense(models.TextChoices):
+    any_v = 'any', 'any'
+    creative_common = 'creativeCommon', 'Creative Commons'
+    youtube = 'youtube', 'YouTube'
+
+
+class VideoPaidProductPlacement(models.TextChoices):
+    any_v = 'any', 'any'
+    true = 'true', 'with paid promotions'
+
+
+class VideoSyndicated(models.TextChoices):
+    any_v = 'any', 'any'
+    true = 'true', 'syndicated videos'
+
+
+class VideoType(models.TextChoices):
+    any_v = 'any', 'any'
+    episode = 'episode', 'episodes of shows'
+    movie = 'movie', 'movies'
+
+
 class Languages(models.TextChoices):
     none = '', '-'
     af = 'af', 'Afrikaans'
