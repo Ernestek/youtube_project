@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 
 from common.enums import Languages, Region, Category, Topics, SafeSearch
 from common.enums import (VideoType,
@@ -12,7 +13,25 @@ from common.enums import (VideoType,
 from common.enums import ChannelType
 
 
-class ChoiceParamsVideoForm(forms.Form):
+class ChoiceDate(forms.Form):
+    date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        date_from = cleaned_data.get('date_from')
+        date_to = cleaned_data.get('date_to')
+        today = timezone.now().date()
+
+        if date_from and date_to and date_from > date_to:
+            raise forms.ValidationError("Date From cannot be greater than Date To")
+        if date_from and date_from > today:
+            raise forms.ValidationError("Date From cannot be in the future")
+        if date_to and date_to > today:
+            raise forms.ValidationError("Date To cannot be in the future")
+
+
+class ChoiceParamsVideoForm(ChoiceDate):
     query = forms.CharField()
     language = forms.ChoiceField(choices=Languages.choices, required=False)
     region = forms.ChoiceField(choices=Region.choices, required=False)
@@ -27,17 +46,17 @@ class ChoiceParamsVideoForm(forms.Form):
     video_type = forms.ChoiceField(choices=VideoType.choices, required=False)
     video_license = forms.ChoiceField(choices=VideoLicense.choices, required=False)
     video_dimension = forms.ChoiceField(choices=VideoDimension.choices, required=False)
-    date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
-    date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    # date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    # date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
 
 
-class ChoiceParamsChannelForm(forms.Form):
+class ChoiceParamsChannelForm(ChoiceDate):
     query = forms.CharField()
     language = forms.ChoiceField(choices=Languages.choices, required=False)
     region = forms.ChoiceField(choices=Region.choices, required=False)
     topic = forms.ChoiceField(choices=Topics.choices, required=False)
     channel_type = forms.ChoiceField(choices=ChannelType.choices, required=False)
     safe_search = forms.ChoiceField(choices=SafeSearch.choices, required=False)
-    date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
-    date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    # date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    # date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
 

@@ -8,7 +8,38 @@
 
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <p>{{ form.query.label }}
+        {{ form.query }}</p>
+        <p>{{ form.language.label }}
+        {{ form.language }}</p>
+        <p>{{ form.region.label }}
+        {{ form.region }}</p>
+        <p>{{ form.category.label }}
+        {{ form.category }}</p>
+        <p>{{ form.topic.label }}
+        {{ form.topic }}</p>
+        <p>{{ form.safe_search.label }}
+        {{ form.safe_search }}</p>
+        <p>{{ form.video_caption.label }}
+        {{ form.video_caption }}</p>
+        <p>{{ form.video_definition.label }}
+        {{ form.video_definition }}</p>
+        <p>{{ form.video_embeddable.label }}
+        {{ form.video_embeddable }}</p>
+        <p>{{ form.video_paid_product_placement.label }}
+        {{ form.video_paid_product_placement }}</p>
+        <p>{{ form.video_syndicated.label }}
+        {{ form.video_syndicated }}</p>
+        <p>{{ form.video_type.label }}
+        {{ form.video_type }}</p>
+        <p>{{ form.video_license.label }}
+        {{ form.video_license }}</p>
+        <p>{{ form.video_dimension.label }}
+        {{ form.video_dimension }}</p>
+        <p>{{ form.date_from.label }}
+        {{ form.date_from }}</p>
+        <p>{{ form.date_to.label }}
+        {{ form.date_to }}</p>
         <button type="submit">Submit</button>
     </form>
 </body>
