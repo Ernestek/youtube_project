@@ -1,7 +1,9 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from parser_app.forms import ChoiceParamsChannelForm
 from modules.search_channels import youtube_search_channels
+from parser_app.models import Channels
 
 
 def parameters_selector_for_search_channels(request):
@@ -36,6 +38,18 @@ def parameters_selector_for_search_channels(request):
     else:
         form = ChoiceParamsChannelForm()
 
+    page_number = request.GET.get('page')  # Получение номера страницы из URL параметра
+    per_page = int(request.GET.get('per_page', 10))  # Получение количества на странице, по умолчанию 10
+    channels = get_channel_list(page_number, per_page)
+
     return render(request, 'parser_app/search_channels.html', {
         'form': form,
+        'channels': channels
     })
+
+
+def get_channel_list(page_number, per_page):
+    channels = Channels.objects.all()
+    paginator = Paginator(channels, per_page)
+    page = paginator.get_page(page_number)
+    return page

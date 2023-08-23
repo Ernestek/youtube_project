@@ -1,7 +1,9 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from parser_app.forms import ChoiceParamsVideoForm
 from modules.search_video import youtube_search_video
+from parser_app.models import Video
 
 
 def parameters_selector_for_search_video(request):
@@ -49,6 +51,18 @@ def parameters_selector_for_search_video(request):
     else:
         form = ChoiceParamsVideoForm()
 
+    page_number = request.GET.get('page')  # Получение номера страницы из URL параметра
+    per_page = int(request.GET.get('per_page', 10))  # Получение количества на странице, по умолчанию 10
+
+    videos = get_video_list(page_number, per_page)
     return render(request, 'parser_app/search_video.html', {
         'form': form,
+        'videos': videos,
     })
+
+
+def get_video_list(page_number, per_page):
+    videos = Video.objects.all()
+    paginator = Paginator(videos, per_page)
+    page = paginator.get_page(page_number)
+    return page
