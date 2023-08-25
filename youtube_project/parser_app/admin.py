@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from parser_app.models import Video, Channels, Keywords
+from parser_app.models import Video, Channels, Keywords, UserTariff
 
 
 @admin.register(Video)
@@ -20,3 +20,8 @@ class ChannelsAdmin(admin.ModelAdmin):
 @admin.register(Keywords)
 class KeywordsAdmin(admin.ModelAdmin):
     list_display = ('name', 'status')
+
+
+@admin.register(UserTariff)
+class UserTariffAdmin(admin.ModelAdmin):
+    list_display = ('user', 'remaining_searches')

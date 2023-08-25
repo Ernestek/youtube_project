@@ -1,7 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Search Youtube Channels</title>
+{% extends 'account/base.html' %}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{% block head_title %} Search Youtube Channels{% endblock %}
+{% block extra_head %}
     <style>
         /* Стили для таблицы */
         table {
@@ -19,10 +21,12 @@
             background-color: #f2f2f2;
         }
     </style>
-</head>
-<body>
+{% endblock %}
+{#</head>#}
+{#<body>#}
+ {% block content %}
     <h1>Parameter Selector</h1>
-
+    {% if count_search_request > 0 %}
     <form method="post">
         {% csrf_token %}
         <p>{{ form.query.label }}
@@ -43,7 +47,9 @@
         {{ form.date_to }}</p>
         <button type="submit">Submit</button>
     </form>
-
+    {% else %}
+        <p>No search request</p>
+    {% endif %}
     {% if channels %}
         <h2>Channel List</h2>
         <form method="get" action="">
@@ -103,6 +109,7 @@
             </span>
         </div>
     {% endif %}
-
-</body>
-</html>
+ {% endblock %}
+{##}
+{#</body>#}
+{#</html>#}

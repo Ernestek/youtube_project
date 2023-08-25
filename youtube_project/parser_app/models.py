@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Keywords(models.Model):
@@ -36,3 +37,19 @@ class Channels(models.Model):
     thumbnails_high = models.CharField(max_length=512, null=True, blank=True)
     live_broadcast_content = models.CharField(max_length=256, null=True, blank=True)
     publish_time = models.CharField(max_length=256, null=True, blank=True)
+
+
+class UserTariff(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_tariff')
+    remaining_searches = models.PositiveIntegerField(default=10)  # Начальное количество доступных запросов
+
+    def decrement_search_limit(self):
+        if self.remaining_searches > 0:
+            self.remaining_searches -= 1
+            self.save()
+
+    def is_search_limit_exceeded(self):
+        return self.remaining_searches <= 0
+
+    def __str__(self):
+        return f'User: {self.user.username}, Remaining'

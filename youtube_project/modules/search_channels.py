@@ -24,9 +24,9 @@ def youtube_search_channels(query: str, language=None, region_code=None, topic_i
         # 'publishedBefore': date_to,
         'pageToken': page_token
     }
-    if date_from:
+    if date_from and date_from.strip() != 'None':
         params['publishedAfter'] = date_from + 'T00:00:00Z'
-    if date_to:
+    if date_to and date_to != 'None':
         params['publishedBefore'] = date_to + 'T00:00:00Z'
     response = requests.get(base_url, params=params)
     data = response.json()

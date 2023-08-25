@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
@@ -6,6 +7,7 @@ from modules.search_video import youtube_search_video
 from parser_app.models import Video
 
 
+@login_required
 def parameters_selector_for_search_video(request):
     if request.method == 'POST':
         form = ChoiceParamsVideoForm(request.POST)
