@@ -58,7 +58,7 @@ def parameters_selector_for_search_channels(request):
 
 
 def get_channel_list(page_number, per_page):
-    channels = Channels.objects.all()
+    channels = Channels.objects.order_by('id').all()
     paginator = Paginator(channels, per_page)
     page = paginator.get_page(page_number)
     return page
