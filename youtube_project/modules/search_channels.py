@@ -4,7 +4,7 @@ from modules.load_django import *
 from parser_app.models import Channels
 
 
-def youtube_search_channels(query: str, language=None, region_code=None, topic_id=None,
+def youtube_search_channels(query: str, user, language=None, region_code=None, topic_id=None,
                             count=50, page_token=None, channel_type='any', safe_search='moderate',
                             date_from=None, date_to=None):
     base_url = "https://www.googleapis.com/youtube/v3/search"
@@ -52,6 +52,7 @@ def youtube_search_channels(query: str, language=None, region_code=None, topic_i
         Channels.objects.get_or_create(
             channel_id=channel_id,
             defaults={
+                'user': user,
                 'channel_title': channel_title,
                 'description': description,
                 'kind': kind,

@@ -45,6 +45,7 @@ def parameters_selector_for_search_video(request):
                                                         video_type=video_type,
                                                         video_license=video_license,
                                                         video_dimension=video_dimension,
+                                                        user=request.user,
                                                         date_from=date_from or None,
                                                         date_to=date_to or None,
                                                         page_token=page_token)
@@ -59,7 +60,7 @@ def parameters_selector_for_search_video(request):
     count_search_request = request.user.user_tariff.remaining_searches
     page_number = request.GET.get('page')  # Получение номера страницы из URL параметра
     per_page = int(request.GET.get('per_page', 10))  # Получение количества на странице, по умолчанию 10
-    videos = get_video_list(page_number, per_page)
+    videos = get_video_list(page_number, per_page, user=request.user)
 
     return render(request, 'parser_app/search_video.html', {
         'form': form,
@@ -68,8 +69,8 @@ def parameters_selector_for_search_video(request):
     })
 
 
-def get_video_list(page_number, per_page):
-    videos = Video.objects.order_by('id').all()
+def get_video_list(page_number, per_page, user):
+    videos = Video.objects.filter(user=user).order_by('id')
     paginator = Paginator(videos, per_page)
     page = paginator.get_page(page_number)
     return page

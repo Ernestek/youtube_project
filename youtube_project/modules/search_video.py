@@ -4,7 +4,7 @@ from modules.load_django import *
 from parser_app.models import Video
 
 
-def youtube_search_video(query: str, language=None, region_code=None, category_id=None, topic_id=None,
+def youtube_search_video(query: str, user, language=None, region_code=None, category_id=None, topic_id=None,
                          count=50, page_token=None, video_caption='any', video_definition='any',
                          video_embeddable='any', video_paid_product_placement='any', video_syndicated='any',
                          video_type='any', video_license='any', video_dimension='any', date_from=None, date_to=None):
@@ -56,15 +56,10 @@ def youtube_search_video(query: str, language=None, region_code=None, category_i
         title = item['snippet']['title']
         description = item['snippet']['description']
 
-        # videos.append({
-        #     'video_id': video_id,
-        #     'video_name': title,
-        #     'channel_id': channel_id,
-        #     'channel_title': channel_title,
-        # })
         Video.objects.get_or_create(
             video_id=video_id,
             defaults={
+                'user': user,
                 'video_name': title,
                 'channel_id': channel_id,
                 'channel_title': channel_title,

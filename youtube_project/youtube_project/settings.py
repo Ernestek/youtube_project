@@ -11,10 +11,19 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Application definition
+env = environ.Env()
+ENV_FILE_PATH = BASE_DIR.parent / '.env'
+if ENV_FILE_PATH.exists():
+    environ.Env.read_env(env_file=str(ENV_FILE_PATH))
+
+# SECRET_KEY = env.str('SECRET_KEY', default='django_secret_key')
+# DEBUG = env.bool('DEBUG', default=False)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -79,10 +88,21 @@ WSGI_APPLICATION = 'youtube_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('POSTGRES_DB'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('POSTGRES_HOST'),
+        'PORT': env('POSTGRES_PORT'),
     }
 }
 
@@ -97,7 +117,16 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {}
 SOCIALACCOUNT_AUTO_SIGNUP = False
-
+# EMAIL
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Обязательное подтверждение по почте
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7  # Время действия ссылки подтверждения в днях
+ACCOUNT_EMAIL_SUBJECT_PREFIX = 'QQQ'  # Префикс для темы электронных писем
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Замените на настройки вашего SMTP-сервера
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

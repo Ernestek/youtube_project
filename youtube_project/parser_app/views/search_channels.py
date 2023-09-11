@@ -37,7 +37,8 @@ def parameters_selector_for_search_channels(request):
                                                            safe_search=safe_search,
                                                            date_from=date_from or None,
                                                            date_to=date_to or None,
-                                                           page_token=page_token)
+                                                           page_token=page_token,
+                                                           user=request.user)
                     if youtube_data.get('next_page'):
                         page_token = youtube_data.get('next_page')
                     else:
@@ -48,7 +49,7 @@ def parameters_selector_for_search_channels(request):
     count_search_request = request.user.user_tariff.remaining_searches
     page_number = request.GET.get('page')  # Получение номера страницы из URL параметра
     per_page = int(request.GET.get('per_page', 10))  # Получение количества на странице, по умолчанию 10
-    channels = get_channel_list(page_number, per_page)
+    channels = get_channel_list(page_number, per_page, user=request.user)
 
     return render(request, 'parser_app/search_channels.html', {
         'form': form,
@@ -57,8 +58,8 @@ def parameters_selector_for_search_channels(request):
     })
 
 
-def get_channel_list(page_number, per_page):
-    channels = Channels.objects.order_by('id').all()
+def get_channel_list(page_number, per_page, user):
+    channels = Channels.objects.filter(user=user).order_by('id')
     paginator = Paginator(channels, per_page)
     page = paginator.get_page(page_number)
     return page

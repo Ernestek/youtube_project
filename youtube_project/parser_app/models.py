@@ -8,6 +8,7 @@ class Keywords(models.Model):
 
 
 class Video(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='video')
     video_id = models.CharField(max_length=512, unique=True)
     video_name = models.CharField(max_length=512, null=True, blank=True)
     channel_id = models.CharField(max_length=512, null=True, blank=True)
@@ -25,6 +26,7 @@ class Video(models.Model):
 
 
 class Channels(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='channels')
     channel_id = models.CharField(max_length=512, unique=True)
     channel_title = models.CharField(max_length=512, null=True, blank=True)
     description = models.TextField()
