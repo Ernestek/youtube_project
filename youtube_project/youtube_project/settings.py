@@ -31,7 +31,7 @@ SECRET_KEY = env.str('SECRET_KEY', default='django_secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.str('DEBUG', default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', default='*').split(',')
 
 
 # Application definition
@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-
     'parser_app',
 
     'allauth',
@@ -161,6 +160,8 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATIC_ROOT = BASE_DIR.parent.parent / 'static'
+STATICFILES_DIRS = [os.path.join(BASE_DIR.parent, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

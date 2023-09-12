@@ -28,8 +28,6 @@ def youtube_search_video(query: str, user, language=None, region_code=None, cate
         'video_type': video_type,
         'video_license': video_license,
         'video_dimension': video_dimension,
-        # 'publishedAfter': date_from,
-        # 'publishedBefore': date_to,
         'pageToken': page_token
     }
 

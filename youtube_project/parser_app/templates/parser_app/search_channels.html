@@ -1,11 +1,12 @@
 {% extends 'account/base.html' %}
-{#<!DOCTYPE html>#}
-{#<html>#}
-{#<head>#}
 {% block head_title %} Search Youtube Channels{% endblock %}
 {% block extra_head %}
     <style>
-        /* Стили для таблицы */
+           /* Стили для таблицы */
+        .table-container {
+        max-height: 600px; /* Задайте максимальную высоту, которая подходит для вашей таблицы */
+        overflow-y: auto; /* Добавьте вертикальную прокрутку */
+        }
         table {
             border-collapse: collapse;
             width: 100%;
@@ -22,29 +23,54 @@
         }
     </style>
 {% endblock %}
-{#</head>#}
-{#<body>#}
+
  {% block content %}
+<div class="container">
     <h1>Parameter Selector</h1>
     {% if count_search_request > 0 %}
         <p>Count search requests: {{ count_search_request }}</p>
-    <form method="post">
-        {% csrf_token %}
-        <p>{{ form.query.label }}  {{ form.query }}</p>
-        <p>{{ form.language.label }}  {{ form.language }}</p>
-        <p>{{ form.region.label }}  {{ form.region }}</p>
-        <p>{{ form.topic.label }}  {{ form.topic }}</p>
-        <p>{{ form.channel_type.label }}  {{ form.channel_type }}</p>
-        <p>{{ form.safe_search.label }}  {{ form.safe_search }}</p>
-        <p>{{ form.date_from.label }}  {{ form.date_from }}</p>
-        <p>{{ form.date_to.label }}  {{ form.date_to }}</p>
-        <button type="submit">Submit</button>
+    <form class="query-params form-control" action="{% url 'parser_app:channels' %}" method="post">
+                {% csrf_token %}
+        <div class="me-2">{{ form.query }}</div>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                      <label class="form-label">{{ form.language.label }}</label>
+                        <div>{{ form.language }}</div>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">{{ form.region.label }}</label>
+                        <div>{{ form.region }}</div>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">{{ form.topic.label }}</label>
+                        <div>{{ form.topic }}</div>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">{{ form.channel_type.label }}</label>
+                        <div>{{ form.channel_type }}</div>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">{{ form.safe_search.label }}</label>
+                        <div>{{ form.safe_search }}</div>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label">{{ form.date_from.label }}</label>
+                        <div>{{ form.date_from }}</div>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="form-label">{{ form.date_to.label }}</label>
+                        <div>{{ form.date_to }}</div>
+                    </div>
+                            <button type="submit">Submit</button>
+
+                </div>
     </form>
     {% else %}
         <p>No search request</p>
     {% endif %}
     {% if channels %}
-        <h2>Channel List</h2>
+</div>
+        <h1>Channel List</h1>
         <form method="get" action="">
             <label for="per_page">Per Page:</label>
             <select id="per_page" name="per_page">
@@ -54,7 +80,8 @@
             </select>
             <button type="submit">Apply</button>
         </form>
-        <table>
+        <div class="table-container">
+        <table class="table">
             <tr>
                 <th>Channel ID</th>
                 <th>Channel Title</th>
@@ -86,6 +113,7 @@
             </tr>
             {% endfor %}
         </table>
+            </div>
         <div class="pagination">
             <span class="step-links">
                 {% if channels.has_previous %}
@@ -103,6 +131,3 @@
         </div>
     {% endif %}
  {% endblock %}
-{##}
-{#</body>#}
-{#</html>#}

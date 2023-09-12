@@ -14,8 +14,8 @@ from common.enums import ChannelType
 
 
 class ChoiceDate(forms.Form):
-    date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
-    date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}), required=False)
+    date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}), required=False)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -32,31 +32,26 @@ class ChoiceDate(forms.Form):
 
 
 class ChoiceParamsVideoForm(ChoiceDate):
-    query = forms.CharField()
-    language = forms.ChoiceField(choices=Languages.choices, required=False)
-    region = forms.ChoiceField(choices=Region.choices, required=False)
-    category = forms.ChoiceField(choices=Category.choices, required=False)
-    topic = forms.ChoiceField(choices=Topics.choices, required=False)
-    safe_search = forms.ChoiceField(choices=SafeSearch.choices, required=False)
-    video_caption = forms.ChoiceField(choices=VideoCaption.choices, required=False)
-    video_definition = forms.ChoiceField(choices=VideoDefinition.choices, required=False)
-    video_embeddable = forms.ChoiceField(choices=VideoEmbeddable.choices, required=False)
-    video_paid_product_placement = forms.ChoiceField(choices=VideoPaidProductPlacement.choices, required=False)
-    video_syndicated = forms.ChoiceField(choices=VideoSyndicated.choices, required=False)
-    video_type = forms.ChoiceField(choices=VideoType.choices, required=False)
-    video_license = forms.ChoiceField(choices=VideoLicense.choices, required=False)
-    video_dimension = forms.ChoiceField(choices=VideoDimension.choices, required=False)
-    # date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
-    # date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    query = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Search', 'class': 'form-control'}))
+    language = forms.ChoiceField(choices=Languages.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))  # widget=forms.TextInput(attrs={'list': 'my_field_choices'}),
+    region = forms.ChoiceField(choices=Region.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    category = forms.ChoiceField(choices=Category.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    topic = forms.ChoiceField(choices=Topics.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    safe_search = forms.ChoiceField(choices=SafeSearch.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    video_caption = forms.ChoiceField(choices=VideoCaption.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    video_definition = forms.ChoiceField(choices=VideoDefinition.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    video_embeddable = forms.ChoiceField(choices=VideoEmbeddable.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    video_paid_product_placement = forms.ChoiceField(choices=VideoPaidProductPlacement.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    video_syndicated = forms.ChoiceField(choices=VideoSyndicated.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    video_type = forms.ChoiceField(choices=VideoType.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    video_license = forms.ChoiceField(choices=VideoLicense.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    video_dimension = forms.ChoiceField(choices=VideoDimension.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
 
 
 class ChoiceParamsChannelForm(ChoiceDate):
-    query = forms.CharField()
-    language = forms.ChoiceField(choices=Languages.choices, required=False)
-    region = forms.ChoiceField(choices=Region.choices, required=False)
-    topic = forms.ChoiceField(choices=Topics.choices, required=False)
-    channel_type = forms.ChoiceField(choices=ChannelType.choices, required=False)
-    safe_search = forms.ChoiceField(choices=SafeSearch.choices, required=False)
-    # date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
-    # date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
-
+    query = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Search', 'class': 'form-control'}))
+    language = forms.ChoiceField(choices=Languages.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    region = forms.ChoiceField(choices=Region.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    topic = forms.ChoiceField(choices=Topics.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    channel_type = forms.ChoiceField(choices=ChannelType.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    safe_search = forms.ChoiceField(choices=SafeSearch.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))

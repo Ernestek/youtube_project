@@ -74,3 +74,4 @@ def get_video_list(page_number, per_page, user):
     paginator = Paginator(videos, per_page)
     page = paginator.get_page(page_number)
     return page
+

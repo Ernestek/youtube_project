@@ -51,7 +51,7 @@ class UserTariff(models.Model):
             self.save()
 
     def is_search_limit_exceeded(self):
-        return self.remaining_searches <= 0
+        return self.remaining_searches == 0
 
     def __str__(self):
         return f'User: {self.user.username}, Remaining'
