@@ -1,4 +1,5 @@
 {% extends 'account/base.html' %}
+{% load widget_tweaks %}
 {% block head_title %} Search Youtube Channels{% endblock %}
 {% block extra_head %}
     <style>
@@ -25,63 +26,60 @@
 {% endblock %}
 
  {% block content %}
-<div class="container">
-    <h1>Parameter Selector</h1>
+
+<div class="main-block">
+    <h1 class="h1">Parameter Selector</h1>
     {% if count_search_request > 0 %}
         <p>Count search requests: {{ count_search_request }}</p>
     <form class="query-params form-control" action="{% url 'parser_app:channels' %}" method="post">
                 {% csrf_token %}
-        <div class="me-2">{{ form.query }}</div>
-                <div class="row g-3">
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.language.label }}</label>
-                        <div>{{ form.language }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.region.label }}</label>
-                        <div>{{ form.region }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.topic.label }}</label>
-                        <div>{{ form.topic }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.channel_type.label }}</label>
-                        <div>{{ form.channel_type }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.safe_search.label }}</label>
-                        <div>{{ form.safe_search }}</div>
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label">{{ form.date_from.label }}</label>
-                        <div>{{ form.date_from }}</div>
-                    </div>
-                    <div class="col-sm-6">
-                      <label class="form-label">{{ form.date_to.label }}</label>
-                        <div>{{ form.date_to }}</div>
-                    </div>
-                            <button type="submit">Submit</button>
+        <div class="search__input">{{ form.query|attr:"class:search__field" }}</div>
+        <div class="main-block">
 
+                <div action="" class="add-deal__form add-deal__form-border">
+                    <div class="add-deal__box">
+                        <h class="main-text-title add-deal__title">{{ form.language.label }}</h>
+                        {{ form.language|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.region.label }}</h>
+                        {{ form.region|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.topic.label }}</h>
+                        {{ form.topic|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.channel_type.label }}</h>
+                        {{ form.channel_type|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.safe_search.label }}</h>
+                        {{ form.safe_search|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.date_from.label }}</h>
+                        {{ form.date_from|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.date_to.label }}</h>
+                        {{ form.date_to|attr:"class:add-deal__input" }}
+                    </div>
                 </div>
+        </div>
+
+    <button type="submit" class="add-deals__btn add-deals__btn-create btn">Submit</button>
     </form>
+        </div>
     {% else %}
         <p>No search request</p>
     {% endif %}
     {% if channels %}
 </div>
-        <h1>Channel List</h1>
-        <form method="get" action="">
-            <label for="per_page">Per Page:</label>
-            <select id="per_page" name="per_page">
-                <option value="10" {% if channels.paginator.per_page == 10 %}selected{% endif %}>10</option>
-                <option value="20" {% if channels.paginator.per_page == 20 %}selected{% endif %}>20</option>
-                <option value="50" {% if channels.paginator.per_page == 50 %}selected{% endif %}>50</option>
-            </select>
-            <button type="submit">Apply</button>
-        </form>
-        <div class="table-container">
-        <table class="table">
+{#        <h1>Channel List</h1>#}
+
+        <div class="search__wrapper table-container">
+        <table class="styled-table">
             <tr>
                 <th>Channel ID</th>
                 <th>Channel Title</th>
@@ -115,19 +113,28 @@
         </table>
             </div>
         <div class="pagination">
-            <span class="step-links">
+            <form method="GET" action="">
+                <label for="per_page">Per Page:</label>
+                <select id="per_page" name="per_page">
+                    <option value="10" {% if channels.paginator.per_page == 10 %}selected{% endif %}>10</option>
+                    <option value="20" {% if channels.paginator.per_page == 20 %}selected{% endif %}>20</option>
+                    <option value="50" {% if channels.paginator.per_page == 50 %}selected{% endif %}>50</option>
+                </select>
+                <button type="submit">Apply</button>
+            </form>
+            <ul class="pagination__items">
                 {% if channels.has_previous %}
-                    <a href="?page=1&per_page={{ channels.paginator.per_page }}">first</a>
+                    <li class="page-item"><a href="?page=1&per_page={{ channels.paginator.per_page }}">first</a></li>
                     <a href="?page={{ channels.previous_page_number }}&per_page={{ channels.paginator.per_page }}">previous</a>
                 {% endif %}
 
                 <span class="current-page">{{ channels.number }} of {{ channels.paginator.num_pages }}.</span>
 
                 {% if channels.has_next %}
-                    <a href="?page={{ channels.next_page_number }}&per_page={{ channels.paginator.per_page }}">next</a>
-                    <a href="?page={{ channels.paginator.num_pages }}&per_page={{ channels.paginator.per_page }}">last</a>
+                    <li class="page-item "><a href="?page={{ channels.next_page_number }}&per_page={{ channels.paginator.per_page }}">next</a></li>
+                    <li class="page-item "><a href="?page={{ channels.paginator.num_pages }}&per_page={{ channels.paginator.per_page }}">last</a></li>
                 {% endif %}
-            </span>
+            </ul>
         </div>
     {% endif %}
  {% endblock %}

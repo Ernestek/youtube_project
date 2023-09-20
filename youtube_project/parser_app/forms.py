@@ -50,7 +50,7 @@ class ChoiceParamsVideoForm(ChoiceDate):
 
 class ChoiceParamsChannelForm(ChoiceDate):
     query = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Search', 'class': 'form-control'}))
-    language = forms.ChoiceField(choices=Languages.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
+    language = forms.ChoiceField(choices=Languages.choices, required=False,)
     region = forms.ChoiceField(choices=Region.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
     topic = forms.ChoiceField(choices=Topics.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
     channel_type = forms.ChoiceField(choices=ChannelType.choices, required=False, widget=forms.Select(attrs={'class': 'form-select'}))

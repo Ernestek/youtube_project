@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 {% load i18n %}
+
 <html>
   <head>
       {% load static %}
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--      <link rel="stylesheet" href="{% static 'style.css' %}">-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link type="text/css" href="{% static 'templates/css/style.css' %}" rel="stylesheet" >
+{#    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">#}
+{#    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>#}
     <title>{% block head_title %}{% endblock %}</title>
     {% block extra_head %}
     {% endblock %}
@@ -33,13 +35,22 @@
                 {% if user.is_authenticated %}
 
                 {% url 'parser_app:video' as video_url %}
-                <a class="nav-link {% if request.path == video_url %}active{% endif %}" href="{% url 'parser_app:video' %}">{% trans "Search video" %}</a>
+                <a class="add-deal__input nav-link {% if request.path == video_url %}active{% endif %}" href="{% url 'parser_app:video' %}">{% trans "Search video" %}</a>
                 {% url 'parser_app:channels' as channels_url %}
-                <a class="nav-link {% if request.path == channels_url %}active{% endif %}" href="{% url 'parser_app:channels' %}">{% trans "Search channels" %}</a>
+                <a class="add-deal__input nav-link {% if request.path == channels_url %}active{% endif %}" href="{% url 'parser_app:channels' %}">{% trans "Search channels" %}</a>
                 {% url 'account_email' as account_email_url %}
-                <a class="nav-link {% if request.path == account_email_url %}active{% endif %}" href="{% url 'account_email' %}">{% trans "Change Email" %}</a>
+                <a class="add-deal__input nav-link {% if request.path == account_email_url %}active{% endif %}" href="{% url 'account_email' %}">{% trans "Change Email" %}</a>
+                    {% url 'account_change_password' as account_change_password_url %}
+                <a class="add-deal__input nav-link {% if request.path == account_change_password_url %}active{% endif %}" href="{% url 'account_change_password' %}">{% trans "Change Password" %}</a>
                 {% url 'account_logout' as account_logout_url %}
-                <a class="nav-link {% if request.path == account_logout_url %}active{% endif %}" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+{#                    <a class="add-deal__input nav-link {% if request.path == account_logout_url %}active{% endif %}"> <form method="post" action="{% url 'account_logout' %}">#}
+{#                      {% csrf_token %}#}
+{#                      {% if redirect_field_value %}#}
+{#                      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>#}
+{#                      {% endif %}#}
+{#                      <button type="submit">{% trans 'Sign Out' %}</button>#}
+{#                    </form></a>#}
+                <a class="add-deal__input nav-link {% if request.path == account_logout_url %}active{% endif %}" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
 
 <!--                <a class="nav-link" href="#">Link</a>-->
                 {% else %}
@@ -54,10 +65,9 @@
 
       </ul>
     </div>
-    <div>
         {% block content %}
     {% endblock %}
-    </div>
+
 
     {% endblock %}
 

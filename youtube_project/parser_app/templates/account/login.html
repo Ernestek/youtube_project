@@ -1,47 +1,71 @@
-{% extends "account/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
 
-{% load i18n %}
-{% load account %}
 {#{% load account socialaccount %}#}
 
-{% block head_title %}{% trans "Sign In" %}{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" href="{% static 'templates/css/style.css' %}" rel="stylesheet"/>
+    <title></title>
+</head>
 
-<h1>{% trans "Sign In" %}</h1>
+<body style="padding: 0;" class="opacity-animation">
 
-{#{% get_providers as socialaccount_providers %}#}
+<div class="container-login">
+    <div class="wrap-login">
+        <form class="login-form" method="POST" action="{% url 'account_login' %}">
 
-{% if socialaccount_providers %}
-<p>{% blocktrans with site.name as site_name %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+            <div class="login-h1">
+                Account Login
+            </div>
+            {% csrf_token %}
+            {{ form.non_field_errors | safe }}
+            <br>
 
-<div class="socialaccount_ballot">
+            <div class="wrap-input">
+                {{ form.login.errors | safe }}{{ form.login|attr:"class:input" }}
+                <label for="id_login">Username</label>
+            </div>
 
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
+            <div class="wrap-input">
+                {{ form.password.errors | safe }}{{ form.password|attr:"class:input" }}
+                <label for="id_password">Password</label>
+                <div class="show-password"></div>
+            </div>
 
-  <div class="login-or">{% trans 'or' %}</div>
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            {% endif %}
 
+
+            <div class="container-login-form-btn">
+                <button class="login-form-btn" type="submit">
+                    Login
+                </button>
+            </div>
+
+            <div class="form-desc">
+                <a class="form-desc-link" href="{% url 'account_reset_password' %}">
+                    Forgot Password?
+                </a>
+            </div>
+            <div class="form-desc">
+                Dont have an account?
+                <a class="form-desc-link" href="{{ signup_url }}">
+                    Try creator for free
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 
-{% include "socialaccount/snippets/login_extra.html" %}
+<!-- Script -->
+<script src="{% static 'templates/js/index.js' %}"></script>
+</body>
 
-{% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-{% endif %}
-
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-</form>
-
-{% endblock %}
+</html>

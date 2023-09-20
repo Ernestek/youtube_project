@@ -20,9 +20,7 @@ def youtube_search_channels(query: str, user, language=None, region_code=None, t
         'topicId': topic_id,
         'channel_type': channel_type,
         'safe_search': safe_search,
-        # 'publishedAfter': date_from,
-        # 'publishedBefore': date_to,
-        'pageToken': page_token
+        'pageToken': page_token,
     }
     if date_from and date_from.strip() != 'None':
         params['publishedAfter'] = date_from + 'T00:00:00Z'

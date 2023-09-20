@@ -1,62 +1,79 @@
 {% extends "account/base.html" %}
-
+{% load static %}
 {% load i18n %}
+{% load widget_tweaks %}
 
-{% block head_title %}{% trans "Email Addresses" %}{% endblock %}
+{% block head_title %} Email Addresses {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Email Addresses" %}</h1>
-{% if emailaddresses %}
-<p>{% trans 'The following email addresses are associated with your account:' %}</p>
+<div class="container-login">
+        <div class="wrap-login">
+            <form action="{% url 'account_email' %}" class="login-form" method="post">
+                {% csrf_token %}
 
-<form action="{% url 'account_email' %}" class="email_list" method="post">
-{% csrf_token %}
-<fieldset class="blockLabels">
+                <div class="login-h1">
+                    E-mail Addresses
+                </div>
 
-  {% for emailaddress in emailaddresses %}
-<div class="ctrlHolder">
-      <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
+                <div class="form-desc">
+                    The following e-mail addresses with your account:
+                </div>
+                <div class="radio">
+                    <fieldset class="blockLabels">
 
-      <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or emailaddresses|length == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+                          {% for emailaddress in emailaddresses %}
+                        <div class="ctrlHolder">
+                              <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
 
-{{ emailaddress.email }}
-    {% if emailaddress.verified %}
-    <span class="verified">{% trans "Verified" %}</span>
-    {% else %}
-    <span class="unverified">{% trans "Unverified" %}</span>
-    {% endif %}
-      {% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}
-</label>
-</div>
-  {% endfor %}
+                              <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or emailaddresses|length == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
 
-<div class="buttonHolder">
-      <button class="secondaryAction" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button>
-      <button class="secondaryAction" type="submit" name="action_send" >{% trans 'Re-send Verification' %}</button>
-      <button class="primaryAction" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
-</div>
+                        {{ emailaddress.email }}
+                            {% if emailaddress.verified %}
+                            <span class="verified">{% trans "Verified" %}</span>
+                            {% else %}
+                            <span class="unverified">{% trans "Unverified" %}</span>
+                            {% endif %}
+                              {% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}
+                        </label>
+                        </div>
+                          {% endfor %}
 
-</fieldset>
-</form>
+                        <div class="buttonHolder custom-radio__btns">
+                              <button class="custom-radio__btn secondaryAction" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button>
+                              <button class="custom-radio__btn secondaryAction" type="submit" name="action_send" >{% trans 'Re-send Verification' %}</button>
+                              <button class="custom-radio__btn primaryAction" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
+                        </div>
 
-{% else %}
-{% include "account/snippets/warn_no_email.html" %}
-{% endif %}
+                    </fieldset>
 
-  {% if can_add_email %}
-    <h2>{% trans "Add Email Address" %}</h2>
+                </div>
+            </form>
+            <form method="post" action="{% url 'account_email' %}" class="add_email">
+                {% csrf_token %}
+                <div class="login-h1">
+                    Add E-mail Address
+                </div>
 
-    <form method="post" action="{% url 'account_email' %}" class="add_email">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button name="action_add" type="submit">{% trans "Add Email" %}</button>
-    </form>
-  {% endif %}
+                <div class="wrap-input">
+                    {{ form.email|attr:"class:input" }}
+                    <label for="email">Email</label>
+                </div>
 
+
+                <div class="container-login-form-btn">
+                    <button class="login-form-btn" name="action_add" type="submit">
+                        Add E-mail
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 
 {% block extra_body %}
+<script src="{% static 'templates/js/index.js' %}"></script>
 <script type="text/javascript">
 (function() {
   var message = "{% trans 'Do you really want to remove the selected email address?' %}";

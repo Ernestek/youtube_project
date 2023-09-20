@@ -1,4 +1,5 @@
 {% extends 'account/base.html' %}
+{% load widget_tweaks %}
 
 {% block head_title %} Search Youtube Video {% endblock %}
 {% block extra_head %}
@@ -27,84 +28,86 @@
 {% endblock %}
 
  {% block content %}
-<div class="container">
-    <h1>Parameter Selector</h1>
+<div class="main-block">
+    <h1 class="h1">Parameter Selector</h1>
      {% if count_search_request > 0 %}
         <p>Count search requests: {{ count_search_request }}</p>
     <form class="query-params form-control" action="{% url 'parser_app:video' %}" method="post">
         {% csrf_token %}
-        <div class="me-2">{{ form.query }}</div>
-                <div class="row g-3">
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.language.label }}</label>
-                        <div>{{ form.language }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.region.label }}</label>
-                        <div>{{ form.region }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.category.label }}</label>
-                        <div>{{ form.category }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.topic.label }}</label>
-                        <div>{{ form.topic }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.safe_search.label }}</label>
-                        <div>{{ form.safe_search }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.video_caption.label }}</label>
-                        <div>{{ form.video_caption }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.video_definition.label }}</label>
-                        <div>{{ form.video_definition }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.video_embeddable.label }}</label>
-                        <div>{{ form.video_embeddable }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.video_embeddable.label }}</label>
-                        <div>{{ form.video_embeddable }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.video_paid_product_placement.label }}</label>
-                        <div>{{ form.video_paid_product_placement }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.video_syndicated.label }}</label>
-                        <div>{{ form.video_syndicated }}</div>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="form-label">{{ form.video_type.label }}</label>
-                        <div>{{ form.video_type }}</div>
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label">{{ form.video_dimension.label }}</label>
-                        <div>{{ form.video_dimension }}</div>
-                    </div>
+        <div class="search__input">{{ form.query|attr:"class:search__field" }}</div>
+        <div class="main-block">
 
-                    <div class="col-sm-6">
-                      <label class="form-label">{{ form.date_from.label }}</label>
-                        <div>{{ form.date_from }}</div>
+                <div action="" class="add-deal__form add-deal__form-border">
+                    <div class="add-deal__box">
+                        <h class="main-text-title add-deal__title">{{ form.language.label }}</h>
+                        {{ form.language|attr:"class:add-deal__input" }}
                     </div>
-                    <div class="col-sm-6">
-                      <label class="form-label">{{ form.date_to.label }}</label>
-                        <div>{{ form.date_to }}</div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.region.label }}</h>
+                        {{ form.region|attr:"class:add-deal__input" }}
                     </div>
-                    <button type="submit">Submit</button>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.category.label }}</h>
+                        {{ form.category|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.topic.label }}</h>
+                        {{ form.topic|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.safe_search.label }}</h>
+                        {{ form.safe_search|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.video_caption.label }}</h>
+                        {{ form.video_caption|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.video_definition.label }}</h>
+                        {{ form.video_definition|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.video_embeddable.label }}</h>
+                        {{ form.video_embeddable|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.video_embeddable.label }}</h>
+                        {{ form.video_embeddable|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.video_paid_product_placement.label }}</h>
+                        {{ form.video_paid_product_placement|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.video_syndicated.label }}</h>
+                        {{ form.video_syndicated|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.video_type.label }}</h>
+                        {{ form.video_type|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.video_dimension.label }}</h>
+                        {{ form.video_dimension|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.date_from.label }}</h>
+                        {{ form.date_from|attr:"class:add-deal__input" }}
+                    </div>
+                    <div class="add-deal__box">
+                         <h class="main-text-title add-deal__title">{{ form.date_to.label }}</h>
+                        {{ form.date_to|attr:"class:add-deal__input" }}
+                    </div>
                 </div>
+        </div>
+        <button type="submit" class="add-deals__btn add-deals__btn-create btn">Submit</button>
     </form>
     {% else %}
         <p>No search request</p>
     {% endif %}
 </div>
     {% if videos %}
-        <h1>Video List</h1>
+{#        <h1>Video List</h1>#}
         <form method="get" action="">
             <label for="per_page">Per Page:</label>
             <select id="per_page" name="per_page">
@@ -114,8 +117,8 @@
             </select>
             <button type="submit">Apply</button>
         </form>
-        <div class="table-container">
-        <table class="table">
+        <div class="search__wrapper table-container">
+        <table class="styled-table">
             <tr>
                 <th>Video ID</th>                         
                 <th>Video Title</th>                      
